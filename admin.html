@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kolektor Hebat - Admin</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="nav-links">
+            <a href="index.html">Input Pembayaran</a> | <a href="admin.html">Admin (Tambah Santri)</a>
+        </div>
+        <h2>Admin: Tambah Data Master</h2>
+        <div class="info-box">
+            Gunakan form ini jika ada santri baru yang masuk atau perlu penambahan data kolektor.
+        </div>
+        <form id="adminForm">
+            <div class="form-group">
+                <label>Tingkatan</label>
+                <select id="adm_tingkat" required>
+                    <option value="">-- Pilih Tingkatan --</option>
+                    <option value="MA">MA</option>
+                    <option value="MTs">MTs</option>
+                    <option value="SMP">SMP</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Nama Kolektor</label>
+                <input type="text" id="adm_kolektor" placeholder="Contoh: Ahriani, S.Si" required>
+            </div>
+            <div class="form-group">
+                <label>Kelas</label>
+                <input type="text" id="adm_kelas" placeholder="Contoh: X A atau VII B" required>
+            </div>
+            <div class="form-group">
+                <label>Nama Santri Baru</label>
+                <input type="text" id="adm_namaSantri" placeholder="Nama lengkap santri" required>
+            </div>
+            <div class="form-group">
+                <label>Tahun Pelajaran</label>
+                <input type="text" id="adm_tahunPelajaran" value="2026/2027" required>
+            </div>
+            <div class="form-group">
+                <label>Semester</label>
+                <select id="adm_semester" required>
+                    <option value="Ganjil">Ganjil</option>
+                    <option value="Genap">Genap</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Keterangan</label>
+                <textarea id="adm_keterangan" rows="2" placeholder="Catatan tambahan (opsional)"></textarea>
+            </div>
+            <button type="submit" class="btn">Simpan Data Master</button>
+        </form>
+    </div>
+    <script src="data.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
