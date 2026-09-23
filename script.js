@@ -1,5 +1,5 @@
-// GANTI URL INI DENGAN URL DEPLOYMENT APPS SCRIPT ANDA
-const SCRIPT_URL = 'GANTI_DENGAN_URL_APPS_SCRIPT_ANDA'; 
+// URL Google Apps Script Anda sudah terpasang di sini
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz4jH-bDmidV850GsPwNV1jaWNY0mIZiX1r0QGt-dc6rx7RDLy0aljDefgeOlmKO8VT/exec'; 
 
 document.addEventListener('DOMContentLoaded', function() {
     const form = document.getElementById('paymentForm');
