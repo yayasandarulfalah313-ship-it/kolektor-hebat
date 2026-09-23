@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kolektor Hebat - Input Pembayaran</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="nav-links">
+            <a href="index.html">Input Pembayaran</a> | <a href="admin.html">Admin (Tambah Santri)</a>
+        </div>
+        <h2>Form Input Pembayaran</h2>
+        <div class="info-box">
+            Tagihan Bulanan: SWPS Rp 300.000 | Catering Rp 150.000
+        </div>
+        <form id="paymentForm">
+            <div class="form-group">
+                <label>Tingkatan</label>
+                <select id="tingkat" required>
+                    <option value="">-- Pilih Tingkatan --</option>
+                    <option value="MA">MA</option>
+                    <option value="MTs">MTs</option>
+                    <option value="SMP">SMP</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Nama Kolektor</label>
+                <input type="text" id="kolektor" readonly>
+            </div>
+            <div class="form-group">
+                <label>Kelas</label>
+                <select id="kelas" required>
+                    <option value="">-- Pilih Kelas --</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Nama Santri</label>
+                <select id="namaSantri" required>
+                    <option value="">-- Pilih Santri --</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Tahun Pelajaran</label>
+                <input type="text" id="tahunPelajaran" value="2026/2027" required>
+            </div>
+            <div class="form-group">
+                <label>Semester</label>
+                <select id="semester" required>
+                    <option value="Ganjil">Ganjil</option>
+                    <option value="Genap">Genap</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Bulan</label>
+                <select id="bulan" required>
+                    <option value="Januari">Januari</option>
+                    <option value="Februari">Februari</option>
+                    <option value="Maret">Maret</option>
+                    <option value="April">April</option>
+                    <option value="Mei">Mei</option>
+                    <option value="Juni">Juni</option>
+                    <option value="Juli">Juli</option>
+                    <option value="Agustus">Agustus</option>
+                    <option value="September">September</option>
+                    <option value="Oktober">Oktober</option>
+                    <option value="November">November</option>
+                    <option value="Desember">Desember</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Tanggal Bayar</label>
+                <input type="date" id="tanggalBayar" required>
+            </div>
+            <div class="form-group">
+                <label>Jenis Pembayaran</label>
+                <select id="jenisPembayaran" required>
+                    <option value="SWPS">SWPS Saja (Rp 300.000)</option>
+                    <option value="Catering">Catering Saja (Rp 150.000)</option>
+                    <option value="SWPS + Catering">SWPS + Catering (Rp 450.000)</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Tunggakan Bulan Sebelumnya (Rp)</label>
+                <input type="number" id="tunggakanAwal" value="0" min="0" required>
+            </div>
+            <div class="form-group">
+                <label>Tagihan Bulan Ini</label>
+                <input type="text" id="tagihanBulanIni" class="calculated" readonly>
+            </div>
+            <div class="form-group">
+                <label>Total Tunggakan (Otomatis)</label>
+                <input type="text" id="totalTunggakan" class="calculated" readonly>
+            </div>
+            <div class="form-group">
+                <label>Jumlah Dibayar (Rp)</label>
+                <input type="number" id="jumlahDibayar" value="0" min="0" required>
+            </div>
+            <div class="form-group">
+                <label>Sisa Tunggakan (Otomatis)</label>
+                <input type="text" id="sisaTunggakan" class="calculated" readonly>
+            </div>
+            <div class="form-group">
+                <label>Keterangan</label>
+                <textarea id="keterangan" rows="2" placeholder="Opsional"></textarea>
+            </div>
+            <button type="submit" class="btn">Simpan Pembayaran</button>
+            <div id="loader" class="loader">Menyimpan data, mohon tunggu...</div>
+        </form>
+    </div>
+    <script src="data.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
