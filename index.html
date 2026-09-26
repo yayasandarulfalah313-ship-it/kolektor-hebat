@@ -9,51 +9,63 @@
 <body>
     <div class="container">
         <div class="nav-links">
-            <a href="index.html">Input Pembayaran</a> | <a href="admin.html">Admin (Tambah Santri)</a>
+            <a href="index.html" class="active">💰 Input Pembayaran</a>
+            <a href="admin.html">⚙️ Admin Panel</a>
+            <a href="#" id="logoutBtn">🚪 Logout</a>
         </div>
-        <h2>Form Input Pembayaran</h2>
+        
+        <h2><span class="icon">💳</span>Form Input Pembayaran</h2>
+        
         <div class="info-box">
-            Tagihan Bulanan: SWPS Rp 300.000 | Catering Rp 150.000
+            💡 Tagihan Bulanan: SWPS Rp 300.000 | Catering Rp 150.000<br>
+            📊 Pilih jenis pembayaran di bawah (bisa keduanya)
         </div>
+        
         <form id="paymentForm">
             <div class="form-group">
-                <label>Tingkatan</label>
+                <label>🏫 Tingkatan</label>
                 <select id="tingkat" required>
                     <option value="">-- Pilih Tingkatan --</option>
-                    <option value="MA">MA</option>
-                    <option value="MTs">MTs</option>
-                    <option value="SMP">SMP</option>
+                    <option value="MA">MA (Madrasah Aliyah)</option>
+                    <option value="MTs">MTs (Madrasah Tsanawiyah)</option>
+                    <option value="SMP">SMP (Sekolah Menengah Pertama)</option>
                 </select>
             </div>
+            
             <div class="form-group">
-                <label>Nama Kolektor</label>
+                <label>👨‍ Nama Kolektor</label>
                 <input type="text" id="kolektor" readonly>
             </div>
+            
             <div class="form-group">
-                <label>Kelas</label>
+                <label>📚 Kelas</label>
                 <select id="kelas" required>
                     <option value="">-- Pilih Kelas --</option>
                 </select>
             </div>
+            
             <div class="form-group">
-                <label>Nama Santri</label>
+                <label>👤 Nama Santri</label>
                 <select id="namaSantri" required>
                     <option value="">-- Pilih Santri --</option>
                 </select>
             </div>
+            
             <div class="form-group">
-                <label>Tahun Pelajaran</label>
+                <label>📅 Tahun Pelajaran</label>
                 <input type="text" id="tahunPelajaran" value="2026/2027" required>
             </div>
+            
             <div class="form-group">
-                <label>Semester</label>
+                <label>📆 Semester</label>
                 <select id="semester" required>
                     <option value="Ganjil">Ganjil</option>
                     <option value="Genap">Genap</option>
                 </select>
             </div>
+            
             <div class="form-group">
-                <label>Bulan</label>
+                <label>🗓️ Bulan</label>
                 <select id="bulan" required>
                     <option value="Januari">Januari</option>
                     <option value="Februari">Februari</option>
@@ -69,44 +81,58 @@
                     <option value="Desember">Desember</option>
                 </select>
             </div>
+            
             <div class="form-group">
-                <label>Tanggal Bayar</label>
+                <label>📅 Tanggal Bayar</label>
                 <input type="date" id="tanggalBayar" required>
             </div>
+            
             <div class="form-group">
-                <label>Jenis Pembayaran</label>
-                <select id="jenisPembayaran" required>
-                    <option value="SWPS">SWPS Saja (Rp 300.000)</option>
-                    <option value="Catering">Catering Saja (Rp 150.000)</option>
-                    <option value="SWPS + Catering">SWPS + Catering (Rp 450.000)</option>
-                </select>
+                <label>💵 Jenis Pembayaran (Pilih yang applicable)</label>
+                <div class="checkbox-group">
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="swps" value="SWPS">
+                        <label for="swps">SWPS (Rp 300.000)</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="catering" value="Catering">
+                        <label for="catering">Catering (Rp 150.000)</label>
+                    </div>
+                </div>
             </div>
+            
             <div class="form-group">
-                <label>Tunggakan Bulan Sebelumnya (Rp)</label>
+                <label>💰 Tunggakan Bulan Sebelumnya (Rp)</label>
                 <input type="number" id="tunggakanAwal" value="0" min="0" required>
             </div>
+            
             <div class="form-group">
-                <label>Tagihan Bulan Ini</label>
+                <label>📋 Tagihan Bulan Ini (Otomatis)</label>
                 <input type="text" id="tagihanBulanIni" class="calculated" readonly>
             </div>
+            
             <div class="form-group">
-                <label>Total Tunggakan (Otomatis)</label>
+                <label>📊 Total Tunggakan (Otomatis)</label>
                 <input type="text" id="totalTunggakan" class="calculated" readonly>
             </div>
+            
             <div class="form-group">
-                <label>Jumlah Dibayar (Rp)</label>
+                <label>💸 Jumlah Dibayar (Rp)</label>
                 <input type="number" id="jumlahDibayar" value="0" min="0" required>
             </div>
+            
             <div class="form-group">
-                <label>Sisa Tunggakan (Otomatis)</label>
+                <label> Sisa Tunggakan (Otomatis)</label>
                 <input type="text" id="sisaTunggakan" class="calculated" readonly>
             </div>
+            
             <div class="form-group">
-                <label>Keterangan</label>
-                <textarea id="keterangan" rows="2" placeholder="Opsional"></textarea>
+                <label> Keterangan</label>
+                <textarea id="keterangan" rows="2" placeholder="Catatan tambahan (opsional)"></textarea>
             </div>
-            <button type="submit" class="btn">Simpan Pembayaran</button>
-            <div id="loader" class="loader">Menyimpan data, mohon tunggu...</div>
+            
+            <button type="submit" class="btn">💾 Simpan Pembayaran</button>
+            <div id="loader" class="loader">⏳ Menyimpan data, mohon tunggu...</div>
         </form>
     </div>
     <script src="data.js"></script>
