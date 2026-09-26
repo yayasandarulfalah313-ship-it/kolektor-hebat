@@ -1,21 +1,42 @@
-// URL Google Apps Script Anda sudah terpasang di sini
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz4jH-bDmidV850GsPwNV1jaWNY0mIZiX1r0QGt-dc6rx7RDLy0aljDefgeOlmKO8VT/exec'; 
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz4jH-bDmidV850GsPwNV1jaWNY0mIZiX1r0QGt-dc6rx7RDLy0aljDefgeOlmKO8VT/exec';
+
+// Password Configuration
+const PASSWORDS = {
+  admin: 'admin2026',
+  user: 'user2026'
+};
 
 document.addEventListener('DOMContentLoaded', function() {
+    // Check authentication
+    const currentPage = window.location.pathname.split('/').pop();
+    const isAuth = sessionStorage.getItem('isLoggedIn');
+    const userRole = sessionStorage.getItem('userRole');
+    
+    if (currentPage !== 'login.html' && currentPage !== '' && currentPage !== 'index.html') {
+        if (!isAuth) {
+            window.location.href = 'login.html';
+            return;
+        }
+        if (currentPage === 'admin.html' && userRole !== 'admin') {
+            alert('Akses ditolak! Halaman ini khusus Admin.');
+            window.location.href = 'index.html';
+            return;
+        }
+    }
+
     const form = document.getElementById('paymentForm');
     const adminForm = document.getElementById('adminForm');
     const tingkatSelect = document.getElementById('tingkat');
     const kelasSelect = document.getElementById('kelas');
     const santriSelect = document.getElementById('namaSantri');
-    const jenisSelect = document.getElementById('jenisPembayaran');
     const kolektorInput = document.getElementById('kolektor');
+    const swpsCheck = document.getElementById('swps');
+    const cateringCheck = document.getElementById('catering');
 
-    // Fungsi untuk memformat angka ke Rupiah
     const formatRupiah = (angka) => {
         return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(angka);
     };
 
-    // Update Kolektor & Kelas saat Tingkat berubah
     if (tingkatSelect) {
         tingkatSelect.addEventListener('change', function() {
             const tingkat = this.value;
@@ -39,7 +60,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Update Santri saat Kelas berubah
     if (kelasSelect) {
         kelasSelect.addEventListener('change', function() {
             const tingkat = tingkatSelect.value;
@@ -56,31 +76,31 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Kalkulasi Otomatis Tunggakan
-    if (jenisSelect) {
-        const hitungTunggakan = () => {
-            let tagihan = 0;
-            if (jenisSelect.value === 'SWPS') tagihan = 300000;
-            else if (jenisSelect.value === 'Catering') tagihan = 150000;
-            else if (jenisSelect.value === 'SWPS + Catering') tagihan = 450000;
+    // Kalkulasi dengan SWPS dan Catering terpisah
+    const hitungTunggakan = () => {
+        let tagihan = 0;
+        if (swpsCheck && swpsCheck.checked) tagihan += 300000;
+        if (cateringCheck && cateringCheck.checked) tagihan += 150000;
 
-            const tunggakanAwal = parseInt(document.getElementById('tunggakanAwal').value) || 0;
-            const totalTunggakan = tunggakanAwal + tagihan;
-            
-            document.getElementById('tagihanBulanIni').value = formatRupiah(tagihan);
-            document.getElementById('totalTunggakan').value = formatRupiah(totalTunggakan);
-            
-            const jumlahDibayar = parseInt(document.getElementById('jumlahDibayar').value) || 0;
-            const sisa = totalTunggakan - jumlahDibayar;
-            document.getElementById('sisaTunggakan').value = formatRupiah(sisa > 0 ? sisa : 0);
-        };
+        const tunggakanAwal = parseInt(document.getElementById('tunggakanAwal').value) || 0;
+        const totalTunggakan = tunggakanAwal + tagihan;
+        
+        document.getElementById('tagihanBulanIni').value = formatRupiah(tagihan);
+        document.getElementById('totalTunggakan').value = formatRupiah(totalTunggakan);
+        
+        const jumlahDibayar = parseInt(document.getElementById('jumlahDibayar').value) || 0;
+        const sisa = totalTunggakan - jumlahDibayar;
+        document.getElementById('sisaTunggakan').value = formatRupiah(sisa > 0 ? sisa : 0);
+    };
 
-        jenisSelect.addEventListener('change', hitungTunggakan);
-        document.getElementById('tunggakanAwal').addEventListener('input', hitungTunggakan);
-        document.getElementById('jumlahDibayar').addEventListener('input', hitungTunggakan);
-    }
+    if (swpsCheck) swpsCheck.addEventListener('change', hitungTunggakan);
+    if (cateringCheck) cateringCheck.addEventListener('change', hitungTunggakan);
+    const tunggakanAwalInput = document.getElementById('tunggakanAwal');
+    const jumlahDibayarInput = document.getElementById('jumlahDibayar');
+    if (tunggakanAwalInput) tunggakanAwalInput.addEventListener('input', hitungTunggakan);
+    if (jumlahDibayarInput) jumlahDibayarInput.addEventListener('input', hitungTunggakan);
 
-    // Handle Submit Form Pembayaran (User)
+    // Form Pembayaran
     if (form) {
         form.addEventListener('submit', function(e) {
             e.preventDefault();
@@ -88,6 +108,9 @@ document.addEventListener('DOMContentLoaded', function() {
             const loader = document.getElementById('loader');
             btn.disabled = true;
             loader.style.display = 'block';
+
+            const swpsChecked = swpsCheck ? swpsCheck.checked : false;
+            const cateringChecked = cateringCheck ? cateringCheck.checked : false;
 
             const formData = {
                 action: 'payment',
@@ -99,7 +122,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 semester: document.getElementById('semester').value,
                 bulan: document.getElementById('bulan').value,
                 tanggalBayar: document.getElementById('tanggalBayar').value,
-                jenisPembayaran: document.getElementById('jenisPembayaran').value,
+                swps: swpsChecked.toString(),
+                catering: cateringChecked.toString(),
                 tagihanBulanIni: document.getElementById('tagihanBulanIni').value,
                 tunggakanAwal: document.getElementById('tunggakanAwal').value,
                 jumlahDibayar: document.getElementById('jumlahDibayar').value,
@@ -115,7 +139,6 @@ document.addEventListener('DOMContentLoaded', function() {
             .then(data => {
                 alert(data.message);
                 form.reset();
-                // Reset dropdown dependent
                 if(tingkatSelect) tingkatSelect.dispatchEvent(new Event('change'));
             })
             .catch(error => {
@@ -128,7 +151,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Handle Submit Form Admin
+    // Form Admin
     if (adminForm) {
         adminForm.addEventListener('submit', function(e) {
             e.preventDefault();
@@ -163,6 +186,95 @@ document.addEventListener('DOMContentLoaded', function() {
                 btn.disabled = false;
                 btn.textContent = 'Simpan Data Master';
             });
+        });
+    }
+
+    // Load Realisasi Laporan
+    const realisasiContainer = document.getElementById('realisasiContainer');
+    if (realisasiContainer) {
+        loadRealisasi();
+    }
+
+    function loadRealisasi() {
+        fetch(SCRIPT_URL)
+        .then(response => response.json())
+        .then(data => {
+            if (data.result === 'success' && data.data.length > 0) {
+                displayRealisasi(data.data);
+            } else {
+                realisasiContainer.innerHTML = '<p style="text-align:center; color: var(--merah);">Belum ada data realisasi.</p>';
+            }
+        })
+        .catch(error => {
+            realisasiContainer.innerHTML = '<p style="text-align:center; color: var(--danger);">Gagal memuat data.</p>';
+        });
+    }
+
+    function displayRealisasi(data) {
+        let html = `
+            <table class="realisasi-table">
+                <thead>
+                    <tr>
+                        <th>Nama Kolektor</th>
+                        <th>Tingkat</th>
+                        <th>Total SWPS</th>
+                        <th>Total Catering</th>
+                        <th>Total Diterima</th>
+                        <th>Jml Transaksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+        `;
+        data.forEach(row => {
+            html += `
+                <tr>
+                    <td>${row['Nama Kolektor'] || '-'}</td>
+                    <td>${row['Tingkat'] || '-'}</td>
+                    <td>${row['Total SWPS Terkumpul'] || 'Rp 0'}</td>
+                    <td>${row['Total Catering Terkumpul'] || 'Rp 0'}</td>
+                    <td>${row['Total Pembayaran Diterima'] || 'Rp 0'}</td>
+                    <td>${row['Jumlah Transaksi'] || 0}</td>
+                </tr>
+            `;
+        });
+        html += '</tbody></table>';
+        realisasiContainer.innerHTML = html;
+    }
+
+    // Login Form
+    const loginForm = document.getElementById('loginForm');
+    if (loginForm) {
+        loginForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const role = document.getElementById('loginRole').value;
+            const password = document.getElementById('loginPassword').value;
+            const errorMsg = document.getElementById('errorMsg');
+
+            if (PASSWORDS[role] === password) {
+                sessionStorage.setItem('isLoggedIn', 'true');
+                sessionStorage.setItem('userRole', role);
+                errorMsg.style.display = 'none';
+                
+                if (role === 'admin') {
+                    window.location.href = 'admin.html';
+                } else {
+                    window.location.href = 'index.html';
+                }
+            } else {
+                errorMsg.textContent = 'Password salah! Silakan coba lagi.';
+                errorMsg.style.display = 'block';
+            }
+        });
+    }
+
+    // Logout
+    const logoutBtn = document.getElementById('logoutBtn');
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            sessionStorage.removeItem('isLoggedIn');
+            sessionStorage.removeItem('userRole');
+            window.location.href = 'login.html';
         });
     }
 });
