@@ -3,21 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kolektor Hebat - Admin</title>
+    <title>Kolektor Hebat - Admin Panel</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
         <div class="nav-links">
-            <a href="index.html">Input Pembayaran</a> | <a href="admin.html">Admin (Tambah Santri)</a>
+            <a href="index.html">💰 Input Pembayaran</a>
+            <a href="admin.html" class="active">️ Admin Panel</a>
+            <a href="#" id="logoutBtn">🚪 Logout</a>
         </div>
-        <h2>Admin: Tambah Data Master</h2>
+        
+        <h2><span class="icon"></span>Panel Administrator</h2>
+        
         <div class="info-box">
-            Gunakan form ini jika ada santri baru yang masuk atau perlu penambahan data kolektor.
+            🛠️ Gunakan panel ini untuk:<br>
+            • Menambah santri baru<br>
+            • Mengelola data kolektor<br>
+            • Melihat realisasi laporan
         </div>
+        
+        <h3 style="color: var(--merah); margin: 20px 0 15px; border-bottom: 2px solid var(--emas); padding-bottom: 8px;">
+            📝 Tambah Data Master Santri
+        </h3>
+        
         <form id="adminForm">
             <div class="form-group">
-                <label>Tingkatan</label>
+                <label> Tingkatan</label>
                 <select id="adm_tingkat" required>
                     <option value="">-- Pilih Tingkatan --</option>
                     <option value="MA">MA</option>
@@ -25,35 +37,50 @@
                     <option value="SMP">SMP</option>
                 </select>
             </div>
+            
             <div class="form-group">
-                <label>Nama Kolektor</label>
+                <label>👨‍🏫 Nama Kolektor</label>
                 <input type="text" id="adm_kolektor" placeholder="Contoh: Ahriani, S.Si" required>
             </div>
+            
             <div class="form-group">
-                <label>Kelas</label>
+                <label>📚 Kelas</label>
                 <input type="text" id="adm_kelas" placeholder="Contoh: X A atau VII B" required>
             </div>
+            
             <div class="form-group">
-                <label>Nama Santri Baru</label>
+                <label>👤 Nama Santri Baru</label>
                 <input type="text" id="adm_namaSantri" placeholder="Nama lengkap santri" required>
             </div>
+            
             <div class="form-group">
-                <label>Tahun Pelajaran</label>
+                <label>📅 Tahun Pelajaran</label>
                 <input type="text" id="adm_tahunPelajaran" value="2026/2027" required>
             </div>
+            
             <div class="form-group">
-                <label>Semester</label>
+                <label>📆 Semester</label>
                 <select id="adm_semester" required>
                     <option value="Ganjil">Ganjil</option>
                     <option value="Genap">Genap</option>
                 </select>
             </div>
+            
             <div class="form-group">
-                <label>Keterangan</label>
+                <label>📝 Keterangan</label>
                 <textarea id="adm_keterangan" rows="2" placeholder="Catatan tambahan (opsional)"></textarea>
             </div>
-            <button type="submit" class="btn">Simpan Data Master</button>
+            
+            <button type="submit" class="btn btn-emas">💾 Simpan Data Master</button>
         </form>
+        
+        <h3 style="color: var(--merah); margin: 30px 0 15px; border-bottom: 2px solid var(--emas); padding-bottom: 8px;">
+            📊 Realisasi Laporan Kolektor
+        </h3>
+        
+        <div id="realisasiContainer">
+            <p style="text-align:center; color: var(--merah);">⏳ Memuat data realisasi...</p>
+        </div>
     </div>
     <script src="data.js"></script>
     <script src="script.js"></script>
